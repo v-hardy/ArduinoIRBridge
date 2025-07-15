@@ -1,0 +1,56 @@
+import serial
+import subprocess
+import os
+
+puerto = '/dev/ttyUSB0'
+velocidad = 9600
+
+acciones = {
+    'C': {'nombre': 'Boton-VOL+', 'script': '~/scripts_ir/subir_volumen.sh'},
+    '18': {'nombre': 'Boton-VOL-', 'script': '~/scripts_ir/bajar_volumen.sh'},
+    '13': {'nombre': 'Boton-Mute', 'script': '~/scripts_ir/toggle_mute.sh'},
+    'B': {'nombre': 'Boton-CH+', 'script': '~/scripts_ir/subir_brillo.sh'},
+    '15': {'nombre': 'Boton-CH-', 'script': '~/scripts_ir/bajar_brillo.sh'},
+    '1F': {'nombre': 'Boton-Play', 'script': '~/scripts_ir/play.sh'},
+    '1E': {'nombre': 'Boton-Pause', 'script': '~/scripts_ir/pause.sh'},
+    'E': {'nombre': 'Boton-Stop', 'script': '~/scripts_ir/stop.sh'},
+    'F': {'nombre': 'Boton-PREV', 'script': '~/scripts_ir/anterior.sh'},
+    '1A': {'nombre': 'Boton-Next', 'script': '~/scripts_ir/adelantar_tema.sh'},
+    '12': {'nombre': 'Boton-Power', 'script': '~/scripts_ir/apagar_pantalla.sh'},
+    '10': {'nombre': 'Boton-Mode', 'script': '~/scripts_ir/suspender.sh'},
+    '14': {'nombre': 'Boton-OSD', 'script': '~/scripts_ir/mostrar_info.sh'},
+    '11': {'nombre': 'Boton-Source', 'script': '~/scripts_ir/cambiar_salida_audio.sh'},
+    '19': {'nombre': 'Boton-Snapshot', 'script': '~/scripts_ir/captura.sh'},
+    '1D': {'nombre': 'Boton-Record', 'script': '~/scripts_ir/grabar.sh'},
+    'D': {'nombre': 'Boton-Stereo', 'script': '~/scripts_ir/toggle_stereo.sh'},
+    '1B': {'nombre': 'Boton-TimeShift', 'script': '~/scripts_ir/timeshift.sh'},
+    '1C': {'nombre': 'Boton-Radio', 'script': '~/scripts_ir/radio.sh'},
+    '16': {'nombre': 'Boton-OK', 'script': '~/scripts_ir/enter.sh'},
+    'A': {'nombre': 'Boton-Recall', 'script': '~/scripts_ir/app_anterior.sh'},
+    '0': {'nombre': 'Boton-0', 'script': '~/scripts_ir/bloquear_sesion.sh'},
+    '1': {'nombre': 'Boton-1', 'script': '~/scripts_ir/modo1.sh'},
+    '2': {'nombre': 'Boton-2', 'script': '~/scripts_ir/modo2.sh'},
+    '3': {'nombre': 'Boton-3', 'script': '~/scripts_ir/modo3.sh'},
+    '4': {'nombre': 'Boton-4', 'script': '~/scripts_ir/modo4.sh'},
+    '5': {'nombre': 'Boton-5', 'script': '~/scripts_ir/modo5.sh'},
+    '6': {'nombre': 'Boton-6', 'script': '~/scripts_ir/modo6.sh'},
+    '7': {'nombre': 'Boton-7', 'script': '~/scripts_ir/modo7.sh'},
+    '8': {'nombre': 'Boton-8', 'script': '~/scripts_ir/modo8.sh'},
+    '9': {'nombre': 'Boton-9', 'script': '~/scripts_ir/modo9.sh'}
+}
+
+arduino = serial.Serial(puerto, velocidad)
+print(f'Escuchando IR en {puerto}...')
+
+while True:
+    linea = arduino.readline().decode('utf-8').strip().upper()
+    print(f'Señal-IR_Capturada: {linea}')
+    if linea in acciones:
+        accion = acciones[linea]
+        print(f"Accion: {accion['nombre']}")
+        script = os.path.expanduser(accion['script'])
+        subprocess.Popen(f"bash -c \"{script}\"", shell=True)
+
+
+
+
