@@ -14,13 +14,19 @@ Este proyecto permite controlar acciones en un sistema Linux utilizando un contr
 
 ## 🔧 Instalación
 
-1. **Sube el código Arduino**  
-   Usa un sketch compatible que reciba señales IR y las envíe por `Serial.println()` al detectar un botón. Por ejemplo, usando la librería `IRremote`.
+1. **instalar_dependencias**
+   Para instala las dependencias necesarias ejecuta `1-instalar_dependencias.sh`
 
 2. **Crea tus scripts Bash**  
-   Asegúrate de tener los scripts correspondientes a cada acción en la carpeta `~/scripts_ir/`, y que tengan permisos de ejecución.
+   Asegúrate de tener los scripts correspondientes a cada acción en la carpeta `~/scripts_ir/`, y que tengan permisos de ejecución. Ejecuta `2-inicializar-scripts.py`
 
-3. **Configura el script Python**
+   python3 2-inicializar-scripts.py
+
+3. **Sube el código Arduino**  
+   Usa un sketch compatible que reciba señales IR y las envíe por `Serial.println()` al detectar un botón. Por ejemplo, usando la librería `IRremote`.
+   Cargá `3-sketch-para-cargar.ino` a tu Arduino UNO
+
+4. **Configura el script Python**
 
    Guarda el siguiente código como `ArduinoIRBridge.py`:
 
