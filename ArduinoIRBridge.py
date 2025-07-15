@@ -5,7 +5,7 @@ import time
 
 puerto = '/dev/ttyUSB0'
 velocidad = 9600
-degug = False
+debug = False
 
 acciones = {
     'C': {'nombre': 'Boton-VOL+', 'script': '~/scripts_ir/subir_volumen.sh'},
@@ -52,7 +52,7 @@ try:
     while True:
         linea = arduino.readline().decode('utf-8').strip().upper()
         
-        if degug:
+        if debug:
             print(f'IR-Signal capturada: {linea}')
 
         if not linea:
@@ -63,7 +63,7 @@ try:
         if linea in acciones:
             ultima = ultima_vez.get(linea, 0)
             if ahora - ultima < cooldown:
-                if degug:
+                if debug:
                     print(f"Ignorado por cooldown: {acciones[linea]['nombre']}")
                 continue
 
