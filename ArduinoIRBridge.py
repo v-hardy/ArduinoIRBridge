@@ -1,9 +1,11 @@
 import serial
 import subprocess
 import os
+import time
 
 puerto = '/dev/ttyUSB0'
 velocidad = 9600
+degug = False
 
 acciones = {
     'C': {'nombre': 'Boton-VOL+', 'script': '~/scripts_ir/subir_volumen.sh'},
@@ -42,15 +44,36 @@ acciones = {
 arduino = serial.Serial(puerto, velocidad)
 print(f'Escuchando IR en {puerto}...')
 
-while True:
-    linea = arduino.readline().decode('utf-8').strip().upper()
-    print(f'Señal-IR_Capturada: {linea}')
-    if linea in acciones:
-        accion = acciones[linea]
-        print(f"Accion: {accion['nombre']}")
-        script = os.path.expanduser(accion['script'])
-        subprocess.Popen(f"bash -c \"{script}\"", shell=True)
+# Cooldown en segundos
+cooldown = 1.0
+ultima_vez = {}
 
+try:
+    while True:
+        linea = arduino.readline().decode('utf-8').strip().upper()
+        
+        if degug:
+            print(f'IR-Signal capturada: {linea}')
 
+        if not linea:
+            continue
 
+        ahora = time.time()
 
+        if linea in acciones:
+            ultima = ultima_vez.get(linea, 0)
+            if ahora - ultima < cooldown:
+                if degug:
+                    print(f"Ignorado por cooldown: {acciones[linea]['nombre']}")
+                continue
+
+            ultima_vez[linea] = ahora
+
+            accion = acciones[linea]
+            print(f"Ejecutando: {accion['nombre']}")
+            script = os.path.expanduser(accion['script'])
+            subprocess.Popen(f"bash -c \"{script}\"", shell=True)
+
+except KeyboardInterrupt:
+    print("\nSaliendo del programa...")
+    arduino.close()
