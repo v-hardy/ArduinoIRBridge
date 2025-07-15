@@ -22,7 +22,7 @@ Este proyecto permite controlar acciones en un sistema Linux utilizando un contr
 2. **Crea tus scripts Bash**  
    Asegúrate de tener los scripts correspondientes a cada acción en la carpeta `~/scripts_ir/`, y que tengan permisos de ejecución. Ejecuta `2-inicializar-scripts.py`
 
-```python3 2-inicializar-scripts.py```
+> python3 2-inicializar-scripts.py
 
 3. **Sube el código Arduino**  
    Usa un sketch compatible que reciba señales IR y las envíe por `Serial.println()` al detectar un botón. Por ejemplo, usando la librería `IRremote`.
@@ -32,12 +32,15 @@ Este proyecto permite controlar acciones en un sistema Linux utilizando un contr
 
    Guarda el siguiente código como `ArduinoIRBridge.py`:
 
-```chmod +x ArduinoIRBridge.py```
+~~~
+chmod +x ArduinoIRBridge.py
+~~~
 
    Luego ejecútalo:
 
-```python3 ArduinoIRBridge.py```
-
+~~~
+ python3 ArduinoIRBridge.py
+~~~
 
 🧠 Funcionamiento
 
