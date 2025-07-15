@@ -5,8 +5,8 @@ Este proyecto permite controlar acciones en un sistema Linux utilizando un contr
 
 ## 📦 Requisitos
 
-- Arduino (cualquier modelo con puerto serie, como UNO o Nano)
-- Sensor IR VS1838b conectado al Arduino
+- Arduino UNO
+- Sensor IR VS1838B conectado al Arduino
 - Control remoto IR compatible
 - Sistema Linux con:
   - Python 3
@@ -22,7 +22,9 @@ Este proyecto permite controlar acciones en un sistema Linux utilizando un contr
 2. **Crea tus scripts Bash**  
    Asegúrate de tener los scripts correspondientes a cada acción en la carpeta `~/scripts_ir/`, y que tengan permisos de ejecución. Ejecuta `2-inicializar-scripts.py`
 
-> python3 2-inicializar-scripts.py
+~~~
+python3 2-inicializar-scripts.py
+~~~
 
 3. **Sube el código Arduino**  
    Usa un sketch compatible que reciba señales IR y las envíe por `Serial.println()` al detectar un botón. Por ejemplo, usando la librería `IRremote`.
@@ -39,21 +41,22 @@ chmod +x ArduinoIRBridge.py
    Luego ejecútalo:
 
 ~~~
- python3 ArduinoIRBridge.py
+python3 ArduinoIRBridge.py
 ~~~
 
-🧠 Funcionamiento
 
-    El script se conecta al puerto serie del Arduino (/dev/ttyUSB0 por defecto).
+## 🧠 Funcionamiento
 
-    Lee continuamente los códigos IR enviados.
+   El script se conecta al puerto serie del Arduino (/dev/ttyUSB0 por defecto).
 
-    Si el código recibido coincide con uno de los definidos, se ejecuta el script Bash asociado.
+   Lee continuamente los códigos IR enviados.
 
-    Se aplica un cooldown de 1 segundo para evitar la ejecución repetida por mantener presionado un botón.
+   Si el código recibido coincide con uno de los definidos, se ejecuta el script Bash asociado.
+
+   Se aplica un cooldown de 1 segundo para evitar la ejecución repetida por mantener presionado un botón.
 
 
-🎮 Mapeo de botones
+## 🎮 Mapeo de botones
 
 Ejemplo de algunos botones definidos en el script:
    | Código IR | Acción          | Script ejecutado     |
@@ -68,20 +71,22 @@ Ejemplo de algunos botones definidos en el script:
     Nota: Puedes personalizar los códigos IR y scripts según tus necesidades editando el diccionario acciones en el script Python.
 
 
-🔍 Debug
+## 🔍 Debug
 
 Puedes activar el modo debug editando la variable:
 
+~~~
 debug = True
+~~~
 
 Esto imprimirá en consola las señales IR recibidas y los eventos ignorados por cooldown.
 
 
-🚨 Seguridad
+## 🚨 Seguridad
 
 Evita ejecutar scripts que requieran permisos elevados directamente desde este sistema. Si lo haces, asegúrate de tomar precauciones adecuadas (por ejemplo, usando sudoers con comandos específicos).
 
 
-📃 Licencia
+## 📃 Licencia
 
 Este proyecto es de uso libre y puede ser modificado y distribuido según los términos de la licencia MIT.
